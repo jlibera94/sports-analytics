@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -54,6 +54,34 @@ export function PredictionForm({
   const [saveToNotebook, setSaveToNotebook] = useState<string>("__none__");
   const [images, setImages] = useState<ImageAttachment[]>([]);
   const [loading, setLoading] = useState(false);
+  const [detecting, setDetecting] = useState(false);
+  const [detectedSport, setDetectedSport] = useState<string | null>(null);
+
+  // Auto-detect sport from images
+  useEffect(() => {
+    if (images.length > 0 && !detecting) {
+      setDetecting(true);
+      fetch("/api/detect-sport", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ images }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.sport && data.sport !== "Other") {
+            setSport(data.sport);
+            setDetectedSport(data.sport);
+          }
+          setDetecting(false);
+        })
+        .catch((err) => {
+          console.error("Sport detection error:", err);
+          setDetecting(false);
+        });
+    } else if (images.length === 0) {
+      setDetectedSport(null);
+    }
+  }, [images, detecting]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -135,8 +163,20 @@ export function PredictionForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <Label className="text-muted-foreground">Sport</Label>
-              <Select value={sport} onValueChange={setSport}>
+              <div className="flex items-center justify-between">
+                <Label className="text-muted-foreground">Sport</Label>
+                {detecting && (
+                  <span className="text-xs text-amber-600 font-medium">
+                    Detecting…
+                  </span>
+                )}
+                {detectedSport && !detecting && (
+                  <span className="text-xs text-green-600 font-medium">
+                    Auto-detected
+                  </span>
+                )}
+              </div>
+              <Select value={sport} onValueChange={setSport} disabled={detecting}>
                 <SelectTrigger className="mt-2">
                   <SelectValue />
                 </SelectTrigger>
