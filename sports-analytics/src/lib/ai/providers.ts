@@ -259,9 +259,32 @@ export const geminiProvider: AIProvider = {
   },
 };
 
+export const ollamaProvider: AIProvider = {
+  name: "Ollama",
+  id: "ollama",
+  async generatePrediction(input: PredictionInput): Promise<PredictionResult> {
+    const baseURL = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
+    const model = process.env.OLLAMA_MODEL || "llama2";
+
+    const systemPrompt = PREDICTION_SCHEMA;
+    const userPrompt = buildUserPrompt(input);
+
+    // Note: Ollama doesn't support image URLs in the same way, so we skip images
+    return callOpenAICompatibleAPI(
+      baseURL,
+      "", // Ollama doesn't require an API key for local usage
+      model,
+      systemPrompt,
+      userPrompt,
+      0.3
+    );
+  },
+};
+
 export const providers: Record<string, AIProvider> = {
   grok: grokProvider,
   gpt: gptProvider,
   claude: claudeProvider,
   gemini: geminiProvider,
+  ollama: ollamaProvider,
 };

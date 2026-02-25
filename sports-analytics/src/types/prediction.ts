@@ -1,6 +1,6 @@
 export type BetType = "Moneyline" | "Spread" | "Over/Under" | "Parlay";
 export type Confidence = "low" | "medium" | "high";
-export type AIModel = "grok" | "gpt" | "claude" | "gemini";
+export type AIModel = "grok" | "gpt" | "claude" | "gemini" | "ollama";
 
 export interface PredictionResult {
   sport: string;

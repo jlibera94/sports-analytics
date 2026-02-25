@@ -23,6 +23,7 @@ const MODELS: { id: AIModel; label: string }[] = [
   { id: "gpt", label: "GPT" },
   { id: "claude", label: "Claude" },
   { id: "gemini", label: "Gemini" },
+  { id: "ollama", label: "Ollama (Local)" },
 ];
 
 interface Notebook {

@@ -15,6 +15,7 @@ const MODELS = [
   { id: "gpt", label: "GPT" },
   { id: "claude", label: "Claude" },
   { id: "gemini", label: "Gemini" },
+  { id: "ollama", label: "Ollama (Local)" },
 ];
 
 export function SettingsClient() {
