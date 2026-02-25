@@ -48,7 +48,7 @@ export function PredictionForm({
   const [sport, setSport] = useState("NBA");
   const [betType, setBetType] = useState<BetType>("Moneyline");
   const [odds, setOdds] = useState("");
-  const [model, setModel] = useState<AIModel>("grok");
+  const [model, setModel] = useState<AIModel>("gemini");
   const [compareMode, setCompareMode] = useState(false);
   const [thinkHarder, setThinkHarder] = useState(false);
   const [saveToNotebook, setSaveToNotebook] = useState<string>("__none__");

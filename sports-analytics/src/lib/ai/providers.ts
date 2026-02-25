@@ -188,15 +188,15 @@ export const claudeProvider: AIProvider = {
     });
 
     const textBlock = message.content.find((b) => b.type === "text");
-    const content = textBlock?.type === "text" ? textBlock.text.trim() : "";
-    if (!content) throw new Error("Empty Claude response");
+    const responseText = textBlock?.type === "text" ? textBlock.text.trim() : "";
+    if (!responseText) throw new Error("Empty Claude response");
 
     let parsed: PredictionResult;
     try {
-      const jsonStr = content.replace(/```json\n?|\n?```/g, "").trim();
+      const jsonStr = responseText.replace(/```json\n?|\n?```/g, "").trim();
       parsed = JSON.parse(jsonStr) as PredictionResult;
     } catch {
-      throw new Error(`Invalid JSON from Claude: ${content.slice(0, 200)}`);
+      throw new Error(`Invalid JSON from Claude: ${responseText.slice(0, 200)}`);
     }
 
     if (parsed.probability < 0 || parsed.probability > 1) {
@@ -219,7 +219,7 @@ export const geminiProvider: AIProvider = {
 
     const { GoogleGenerativeAI } = await import("@google/generative-ai");
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
     const userPrompt = buildUserPrompt(input);
     const fullPrompt = `${PREDICTION_SCHEMA}\n\n---\n\n${userPrompt}`;
