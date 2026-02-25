@@ -5,7 +5,7 @@ A sports betting probability engine and prediction journal. AI-powered probabili
 ## Features
 
 - **Betting predictions** – Ask questions, get probability estimates + EV
-- **Multi-model comparison** – Grok (default), GPT, Claude, Gemini
+- **Multi-model comparison** – Grok (default), GPT, Claude, Gemini, Ollama (local)
 - **Notebooks** – Organize predictions by sport/tournament
 - **Dashboard** – Trending games, quick prompts, saved notebooks
 - **Dark premium UI** – Journal/portfolio feel
@@ -31,6 +31,7 @@ A sports betting probability engine and prediction journal. AI-powered probabili
    - `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` – for auth and DB
    - `XAI_API_KEY` – for Grok predictions (required)
    - Optional: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_AI_API_KEY` for compare mode
+   - Optional: `OLLAMA_BASE_URL` (default: `http://localhost:11434`), `OLLAMA_MODEL` (default: `llama2`) for local Ollama
 
 3. **Database**
 
